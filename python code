@@ -1,0 +1,41 @@
+import language_tool_python
+
+def check_grammar(text):
+    # Initialize the LanguageTool object
+    tool = language_tool_python.LanguageTool('en-US')  # You can specify other languages as well
+
+    # Check the text for grammatical errors
+    matches = tool.check(text)
+
+    # Print the original text
+    print("Original Text:")
+    print(text)
+    print("\n")
+
+    # Print the detected errors and suggestions
+    if matches:
+        print("Detected Errors and Suggestions:")
+        for match in matches:
+            print(f"Error: {match.ruleId}")
+            print(f"Message: {match.message}")
+            print(f"Suggested Correction(s): {match.replacements}")
+            print(f"Context: {match.context}")
+            print("\n")
+    else:
+        print("No grammatical errors found.")
+
+    # Correct the text
+    corrected_text = language_tool_python.utils.correct(text, matches)
+
+    # Print the corrected text
+    print("Corrected Text:")
+    print(corrected_text)
+
+if __name__ == "__main__":
+    # Sample text
+    sample_text = """
+    This is an example sentence with a error. 
+    It also have some grammatical mistakes.
+    """
+
+    check_grammar(sample_text)
